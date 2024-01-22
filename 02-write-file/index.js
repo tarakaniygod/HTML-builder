@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { stdin, stdout } = process;
 
-const greetings = " ";
+const greetings = "";
 const fileName = "02-write-file.txt";
 const filePath = path.join(__dirname, fileName);
 console.log("Greetings, stranger! Let's start!");
@@ -15,8 +15,6 @@ fs.writeFile(filePath, greetings, (err) => {
         console.log("Now, write any text please:");
     }
 });
-
-
 
 stdin.on("data", (data) => {
     const dataStringfied = data.toString().trim();
