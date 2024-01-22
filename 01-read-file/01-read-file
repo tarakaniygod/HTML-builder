@@ -1,0 +1,8 @@
+const path = require('path');
+
+// Путь к исполнительному файлу index.js
+const indexPath = path.join(__dirname, 'index.js');
+
+// Запуск скрипта index.js
+require(indexPath);
+
