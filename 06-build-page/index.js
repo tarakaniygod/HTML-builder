@@ -1,29 +1,31 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const directoryName = 'project-dist';
-const templateFileName = 'template.html';
-const componentsDirectoryName = 'components';
-const stylesDirectoryName = 'styles';
-const assetsDirectoryName = 'assets';
-
 async function createProjectDirectory() {
     try {
+        const currentDirectory = __dirname;
 
-        const isDirectoryExists = await fs.stat(directoryName).then(stats => stats.isDirectory()).catch(() => false);
+        const directoryName = 'project-dist';
+        const templateFileName = 'template.html';
+        const componentsDirectoryName = 'components';
+        const stylesDirectoryName = 'styles';
+        const assetsDirectoryName = 'assets';
+
+        const projectDirectoryPath = path.join(currentDirectory, directoryName);
+        const templateFilePath = path.join(currentDirectory, templateFileName);
+        const componentsFolderPath = path.join(currentDirectory, componentsDirectoryName);
+        const stylesFolderPath = path.join(currentDirectory, stylesDirectoryName);
+        const assetsFolderPath = path.join(currentDirectory, assetsDirectoryName);
+        const indexFilePath = path.join(projectDirectoryPath, 'index.html');
+        const styleFilePath = path.join(projectDirectoryPath, 'style.css');
+        const destinationAssetsPath = path.join(projectDirectoryPath, assetsDirectoryName);
+
+        const isDirectoryExists = await directoryExists(projectDirectoryPath);
         if (isDirectoryExists) {
-            await fs.rmdir(directoryName, { recursive: true });
+            await fs.rmdir(projectDirectoryPath, { recursive: true });
         }
-        await fs.mkdir(directoryName);
+        await fs.mkdir(projectDirectoryPath);
         console.log(`Directory "${directoryName}" created successfully.`);
-
-        const templateFilePath = path.join(__dirname, templateFileName);
-        const componentsFolderPath = path.join(__dirname, componentsDirectoryName);
-        const stylesFolderPath = path.join(__dirname, stylesDirectoryName);
-        const assetsFolderPath = path.join(__dirname, assetsDirectoryName);
-        const indexFilePath = path.join(__dirname, directoryName, 'index.html');
-        const styleFilePath = path.join(__dirname, directoryName, 'style.css');
-        const destinationAssetsPath = path.join(__dirname, directoryName, assetsDirectoryName);
 
         const templateContent = await fs.readFile(templateFilePath, 'utf-8');
         const filesInComponents = await fs.readdir(componentsFolderPath);
@@ -104,5 +106,6 @@ async function directoryExists(directoryPath) {
 }
 
 createProjectDirectory();
+
 
 
